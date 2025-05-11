@@ -22,7 +22,8 @@ def register_callbacks(app):
         ]
     )
     def update_all_charts(selected_device, selected_sensors):
-        df = load_data(selected_device, selected_sensors)
+        df = load_data()
+        df = df[(df["Device"] == selected_device) & (df["location"].isin(selected_sensors))]
         
         radar1 = update_radar_chart(df, chart_id=1)
         radar2 = update_radar_chart(df, chart_id=2)

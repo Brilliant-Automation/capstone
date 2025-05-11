@@ -1,13 +1,15 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+from utils.data_loader import load_data, get_unique_locations
 
-# techdebt: using dummy options — replace with dynamic options from data later
+df = load_data()
+
 DEVICE_OPTIONS = [
-    {"label": f"Device {i}", "value": f"device_{i}"} for i in range(1, 4)
+    {"label": dev, "value": dev}
+    for dev in sorted(df["Device"].dropna().unique())
 ]
-# todo: custom sets of sensor options based on which device is there
 SENSOR_OPTIONS = [
-    {"label": loc, "value": loc} for loc in ["Top", "Bottom", "Left", "Right"]
+    {"label": loc, "value": loc} for loc in get_unique_locations(df)
 ]
 
 device_dropdown = html.Div([
@@ -15,7 +17,7 @@ device_dropdown = html.Div([
     dcc.Dropdown(
         id="device-dropdown",
         options=DEVICE_OPTIONS,
-        value="device_1",
+        value=DEVICE_OPTIONS[0]["value"],
         clearable=False
     )
 ])
