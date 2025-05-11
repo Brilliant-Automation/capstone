@@ -35,21 +35,18 @@ python model/src/preprocess.py --device "<device_name>" [--data_dir <data_direct
 ```
 
 ##### **Arguments**:
-- `--device` (Required): Specify one of the supported device names:
-  - `"1#High-Temp Fan"`
-  - `"8#Belt Conveyer"`
-  - `"Tube Mill"`
+- `--device` (Required): Specify one of the supported device names (e.g. `8#Belt Conveyer`).
 - `--data_dir` (Optional): Directory containing raw `.xlsx` files. Defaults to `Data/raw`.
 - `--output_dir` (Optional): Directory to save the processed CSV file. Defaults to `Data/process`.
 
 #### **Examples**
-1. To process data for `1#High-Temp Fan` using default directories:
+1. To process data for `8#Belt Conveyer` using default directories:
    ```bash
-   python model/src/preprocess.py --device "1#High-Temp Fan"
+   python model/src/preprocess.py --device "8#Belt Conveyer"
    ```
    Output:
    ```
-   Data/process/1#High-Temp Fan_merged.csv
+   Data/process/8#Belt Conveyer_merged.csv
    ```
 
 2. To process data for `Tube Mill` using custom directories:

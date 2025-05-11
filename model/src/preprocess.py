@@ -63,7 +63,6 @@ if __name__ == "__main__":
     parser.add_argument("--data_dir", default="Data/raw", help="Directory containing raw .xlsx data files (default: Data/raw)")
     parser.add_argument("--output_dir", default="Data/process", help="Directory to save processed data (default: Data/process)")
 
-    # Parse arguments
     args = parser.parse_args()
     device = args.device
     data_dir = args.data_dir
