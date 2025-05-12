@@ -1,6 +1,7 @@
 from dash import dcc
 import plotly.graph_objs as go
 from utils.plot_config import format_plot
+from utils.colours import COLOUR_MAP
 
 frequency_chart = dcc.Graph(
     id="frequency-chart", 
@@ -18,7 +19,8 @@ def update_frequency_chart(df):
             x=subset["timestamp"],
             y=subset["High-Frequency Acceleration"],
             mode="lines",
-            name=loc
+            name=loc,
+            line=dict(color=COLOUR_MAP.get(loc))
         ))
 
     fig = go.Figure(data=traces)
