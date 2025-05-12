@@ -1,6 +1,7 @@
 import pandas as pd
 
-def load_data(path="../../data/process/sample_belt_conveyer.csv"):
+# techdebt: replace hardcoded path with option to insert path when starting up dashboard
+def load_data(path="../../data/sample_belt_conveyer.csv"):
     df = pd.read_csv(path)
 
     df = df.rename(columns={"datetime": "timestamp"})
