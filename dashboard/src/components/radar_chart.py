@@ -18,13 +18,13 @@ radar_chart_2 = dcc.Graph(
     config={"displayModeBar": False}
     )
 
-# techdebt: hardcoding col names - should vary by what is in df, Title Case
+# techdebt: hardcoding col names - should vary by what is in df
 CHART_1_COLS = [
     "alignment_status", "bearing_lubrication", "electromagnetic_status",
     "fit_condition", "rotor_balance_status", "rubbing_condition"
 ]
 
-# techdebt: hardcoding col names - should vary by what is in df, Title Case
+# techdebt: hardcoding col names - should include all remaining, and narrow down without breaking
 CHART_2_COLS = [
     "velocity_rms", "crest_factor", "kurtosis_opt",
     "peak_value_opt", "rms_10_25khz", "rms_1_10khz"
@@ -40,7 +40,7 @@ def update_radar_chart(df, chart_id):
     fig = go.Figure()
     fig.add_trace(go.Scatterpolar(
         r=means.values,
-        theta=means.index,
+        theta=[col.replace("_", " ").title() for col in means.index],
         fill="toself",
         name="Average"
     ))

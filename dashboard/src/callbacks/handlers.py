@@ -4,7 +4,6 @@ from components.radar_chart import update_radar_chart
 from components.overlay_plot import update_frequency_chart
 from components.signal_charts import update_signal_charts
 
-
 def register_callbacks(app):
     @app.callback(
         [
@@ -22,11 +21,15 @@ def register_callbacks(app):
         ]
     )
     def update_all_charts(selected_device, selected_sensors):
+        # todo: if no sensor selected, disappear plots and give message
+        # if not selected_sensors:
+        
         df = load_data()
         df = df[(df["Device"] == selected_device) & (df["location"].isin(selected_sensors))]
         
         radar1 = update_radar_chart(df, chart_id=1)
         radar2 = update_radar_chart(df, chart_id=2)
+        # techdebt: rename freq to overlay
         freq_fig = update_frequency_chart(df)
         signal_figs = update_signal_charts(df)
 

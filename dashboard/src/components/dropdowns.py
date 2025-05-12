@@ -3,6 +3,7 @@ from utils.data_loader import load_data, get_unique_locations
 from utils.colours import COLOUR_EMOJI
 df = load_data()
 
+# todo: format for multiple devices, including map from device options to sensor options
 DEVICE_OPTIONS = [
     {"label": dev, "value": dev}
     for dev in sorted(df["Device"].dropna().unique())

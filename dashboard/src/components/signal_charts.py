@@ -12,6 +12,7 @@ signal_charts_column = html.Div([
 
 
 def update_signal_charts(df):
+    # techdebt: config file where colnames can be put, currently fragile
     if df.empty or "Vibration Velocity Z" not in df.columns:
         return [go.Figure()] * STANDARD_NUMBER_OF_PLOTS
     return SignalVisualizer(df).generate()

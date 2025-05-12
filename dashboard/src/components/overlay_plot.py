@@ -17,6 +17,7 @@ def update_frequency_chart(df):
         subset = df[df["location"] == loc]
         traces.append(go.Scatter(
             x=subset["timestamp"],
+            # todo: check if we want to have this overlay for more than just HFA
             y=subset["High-Frequency Acceleration"],
             mode="lines",
             name=loc,
