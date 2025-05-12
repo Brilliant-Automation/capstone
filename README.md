@@ -16,6 +16,42 @@ Create the environment from the environment.yml file:
 conda env create -f environment.yml
 conda activate brilliant-auto-env
 ```
+---
+
+### How to Generate the Proposal Report
+
+Follow these steps to generate the proposal report as a PDF:
+
+
+
+#### 1. **Run the Preprocessing Script**
+Prepare the data required for the report by running the preprocessing script:
+
+```bash
+    python model/src/preprocess.py --device "8#Belt Conveyer"
+  ```
+This command processes the data for the specified device and prepares it for subsequent analysis.
+
+
+
+#### 2. **Run the EDA Notebook**
+Execute the exploratory data analysis notebook to automatically generate all required plots:
+
+```bash
+    jupyter nbconvert --to notebook --execute notebook/eda_conveyer_belt.ipynb
+  ```
+This runs all the cells in the notebook and updates it with the generated outputs.
+
+
+#### 3. **Generate the Proposal Report**
+Convert the Quarto document into a PDF report using the following command:
+
+```bash
+  quarto render docs/proposal.qmd --to pdf
+  ```
+The `proposal.pdf` file will be generated and saved in the `docs` directory.
+
+---
 
 ### Run Preprocessing Script
 
@@ -53,23 +89,4 @@ python model/src/preprocess.py --device "<device_name>" [--data_dir <data_direct
    ```bash
    python model/src/preprocess.py --device "Tube Mill" --output_dir custom_data/processed
    ```
-
-
-### Run the EDA Notebook
-The exploratory data analysis for the conveyor belt data is done using a Jupyter notebook:
-
-```
-jupyter notebook notebook/eda_conveyer_belt.ipynb
-```
-
-This makes sure all plots are generated dynamically by running all cells in order. 
-
-### Generate PDF
-
-To generate the proposal report as a PDF, ensure you have [Quarto](https://quarto.org/) installed. Then run the following command in your terminal from the root directory:
-
-```
-quarto render docs/proposal.qmd --to pdf
-```
-
-This will generate `proposal.pdf` in the `docs` directory.
+---
