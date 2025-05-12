@@ -1,5 +1,4 @@
 from dash import dcc, html
-import dash_bootstrap_components as dbc
 from utils.data_loader import load_data, get_unique_locations
 from utils.colours import COLOUR_EMOJI
 df = load_data()
