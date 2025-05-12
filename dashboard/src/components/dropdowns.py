@@ -1,15 +1,19 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 from utils.data_loader import load_data, get_unique_locations
-
+from utils.colours import COLOUR_EMOJI
 df = load_data()
 
 DEVICE_OPTIONS = [
     {"label": dev, "value": dev}
     for dev in sorted(df["Device"].dropna().unique())
 ]
+
 SENSOR_OPTIONS = [
-    {"label": loc, "value": loc} for loc in get_unique_locations(df)
+    {
+        "label": f"{COLOUR_EMOJI.get(loc, '')} {loc}"  , 
+        "value": loc} 
+    for loc in get_unique_locations(df)
 ]
 
 device_dropdown = html.Div([
