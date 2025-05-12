@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 from components.dropdowns import device_dropdown, sensor_dropdown
 from components.radar_chart import radar_chart_1, radar_chart_2
 from components.overlay_plot import frequency_chart
-from components.line_charts import detail_charts_column
+from components.line_charts import signal_charts_column
 
 
 def create_layout():
@@ -32,7 +32,7 @@ def create_layout():
                 ], className="dashboard-col")
             ], width=8),
 
-            dbc.Col(detail_charts_column, width=4, className="dashboard-col")
+            dbc.Col(signal_charts_column, width=4, className="dashboard-col")
         ], className="dashboard-row"),
 
     ], className="dash-container", fluid=True)
