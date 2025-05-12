@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 from components.dropdowns import device_dropdown, sensor_dropdown
 from components.radar_chart import radar_chart_1, radar_chart_2
 from components.overlay_plot import frequency_chart
-from components.line_charts import signal_charts_column
+from dashboard.src.components.signal_charts import signal_charts_column
 from components.header_timestamp import header_timestamp
 
 

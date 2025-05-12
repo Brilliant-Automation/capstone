@@ -2,7 +2,7 @@ from dash import Input, Output
 from utils.data_loader import load_data
 from components.radar_chart import update_radar_chart
 from components.overlay_plot import update_frequency_chart
-from components.line_charts import update_signal_charts
+from dashboard.src.components.signal_charts import update_signal_charts
 
 
 def register_callbacks(app):
