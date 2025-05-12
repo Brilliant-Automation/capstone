@@ -4,13 +4,14 @@ from components.dropdowns import device_dropdown, sensor_dropdown
 from components.radar_chart import radar_chart_1, radar_chart_2
 from components.overlay_plot import frequency_chart
 from components.line_charts import signal_charts_column
+from components.header_timestamp import header_timestamp
 
 
 def create_layout():
     return dbc.Container([
         dbc.Row([
             dbc.Col([
-                html.H1("2025-04-30 15:23:58", className="dashboard-header")
+                header_timestamp()
             ]),
         ]),
 
