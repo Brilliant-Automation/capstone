@@ -13,3 +13,5 @@ dependencies:
   - dash-bootstrap-components=1.6.0
   - plotly=5.21.0
   - jupyter=1.0.0
+  - flask=2.3.3
+  - apscheduler=3.10.4
