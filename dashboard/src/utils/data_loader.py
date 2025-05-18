@@ -32,7 +32,16 @@ class DataLoader:
         self._data_lock = threading.Lock()
         self._data = None
         self._last_update = None
-        self._data_path = Path("../../data/sample_belt_conveyer.csv")
+        
+        # Get the absolute path to the data file
+        current_file = Path(__file__)
+        project_root = current_file.parent.parent.parent.parent
+        self._data_path = project_root / "Data" / "sample_belt_conveyer.csv"
+        
+        if not self._data_path.exists():
+            logger.error(f"Data file not found at: {self._data_path}")
+            raise FileNotFoundError(f"Data file not found at: {self._data_path}")
+            
         self._scheduler = BackgroundScheduler()
         self._scheduler.add_job(self.update_data, 'interval', hours=1)
         self._scheduler.start()
