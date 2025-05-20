@@ -78,6 +78,10 @@ def read_device_files(device_name, data_dir="../Data/raw", aws_mode=False, s3_bu
         rating_df = pd.read_excel(rating_file)
         return features_df, rating_df
 
+def filter_datetime_range(df, col, start, end):
+    """Filters a DataFrame to include rows where col is between start and end."""
+    return df[(df[col] >= start) & (df[col] <= end)]
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Preprocess sensor and ratings data for a device."
@@ -145,6 +149,19 @@ if __name__ == "__main__":
 
     pivot_features_df = pivot_features_df.sort_values("datetime")
     pivot_rating_df = pivot_rating_df.sort_values("datetime")
+
+    # Ensure overlapping datetime range between feature and ratings data
+    min_feature_time = pivot_features_df["datetime"].min()
+    max_feature_time = pivot_features_df["datetime"].max()
+
+    min_rating_time = pivot_rating_df["datetime"].min()
+    max_rating_time = pivot_rating_df["datetime"].max()
+
+    overlap_start = max(min_feature_time, min_rating_time)
+    overlap_end = min(max_feature_time, max_rating_time)
+
+    pivot_features_df = filter_datetime_range(pivot_features_df, "datetime", overlap_start, overlap_end)
+    pivot_rating_df = filter_datetime_range(pivot_rating_df, "datetime", overlap_start, overlap_end)
 
     merged_df = pd.merge_asof(
         pivot_features_df,
