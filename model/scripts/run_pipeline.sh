@@ -12,15 +12,6 @@ if [ -z "$PYTHON_PATH" ]; then
 fi
 echo "Using Python from: $PYTHON_PATH"
 
-# Create logs directory if it doesn't exist
-LOG_DIR="$PROJECT_ROOT/scripts/logs"
-mkdir -p "$LOG_DIR"
-
-# Set up logging
-LOG_FILE="$LOG_DIR/pipeline_$(date +\%Y\%m\%d_\%H\%M\%S).log"
-exec 1> >(tee -a "$LOG_FILE")
-exec 2> >(tee -a "$LOG_FILE" >&2)
-
 echo "Starting pipeline execution at $(date)"
 
 # Function to run preprocessing for a device

@@ -10,6 +10,9 @@
 # the full path would be:
 # 0 * * * * /home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh
 
+# If you want to print the logs of the cron job:
+# 0 * * * * /bin/bash -c '/home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh >> /home/jupyter-ubuntu/capstone/model/scripts/logs/pipeline_$(date +\%Y\%m\%d_\%H\%M\%S).log 2>&1'
+
 # To view current cron jobs:
 # crontab -l
 
