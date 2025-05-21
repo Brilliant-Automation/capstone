@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Source the user's environment
-if [ -f "$HOME/.bashrc" ]; then
-    source "$HOME/.bashrc"
-fi
-if [ -f "$HOME/.profile" ]; then
-    source "$HOME/.profile"
-fi
-
 # Get the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Determine Python path
+PYTHON_PATH=$(which python)
+if [ -z "$PYTHON_PATH" ]; then
+    echo "Error: Python not found in PATH"
+    exit 1
+fi
+echo "Using Python from: $PYTHON_PATH"
 
 # Create logs directory if it doesn't exist
 LOG_DIR="$PROJECT_ROOT/scripts/logs"
@@ -27,7 +27,7 @@ echo "Starting pipeline execution at $(date)"
 run_preprocessing() {
     local device="$1"
     echo "Processing device: $device"
-    if python "$PROJECT_ROOT/src/preprocess.py" --device "$device" --aws; then
+    if "$PYTHON_PATH" "$PROJECT_ROOT/src/preprocess.py" --device "$device" --aws; then
         echo "Successfully processed $device"
         return 0
     else
