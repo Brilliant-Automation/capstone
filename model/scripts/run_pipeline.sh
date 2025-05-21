@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Source the user's environment
+if [ -f "$HOME/.bashrc" ]; then
+    source "$HOME/.bashrc"
+fi
+if [ -f "$HOME/.profile" ]; then
+    source "$HOME/.profile"
+fi
+
 # Get the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
