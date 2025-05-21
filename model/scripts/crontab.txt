@@ -11,7 +11,10 @@
 # 0 * * * * /home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh
 
 # If you want to print the logs of the cron job:
-# 0 * * * * /bin/bash -c '/home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh >> /home/jupyter-ubuntu/capstone/model/scripts/logs/pipeline_$(date +\%Y\%m\%d_\%H\%M\%S).log 2>&1'
+# 0 * * * * /bin/bash -c '/home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh > /home/jupyter-ubuntu/capstone/model/scripts/logs/pipeline_$(date +\%Y\%m\%d_\%H\%M\%S).log 2>&1'
+
+# To solve for error "Python not found in PATH": 
+# 0 * * * * PATH=/home/ubuntu/miniconda3/bin:/home/ubuntu/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin /bin/bash -c '/home/jupyter-ubuntu/capstone/model/scripts/run_pipeline.sh >> /home/jupyter-ubuntu/capstone/model/scripts/logs/pipeline_$(date +\%Y\%m\%d_\%H\%M\%S).log 2>&1'
 
 # To view current cron jobs:
 # crontab -l
