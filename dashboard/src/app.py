@@ -48,5 +48,9 @@ if __name__ == "__main__":
     logger.info("Performing initial data load...")
     data_loader.update_data()
     
-    logger.info("Starting Flask server...")
-    server.run(debug=True, host='0.0.0.0', port=8050)
+    # logger.info("Starting Flask server...")
+    # server.run(debug=True, host='0.0.0.0', port=8050)
+
+    # Uncomment to run HMR for development
+    logger.info("Starting Dash server...")
+    app.run_server(debug=True, host='0.0.0.0', port=8050)
