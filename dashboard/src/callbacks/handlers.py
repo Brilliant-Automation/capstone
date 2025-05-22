@@ -34,3 +34,14 @@ def register_callbacks(app):
         signal_figs = update_signal_charts(df)
 
         return radar1, radar2, freq_fig, *signal_figs
+
+    @app.callback(
+        Output("summary-view", "style"),
+        Output("signal-view", "style"),
+        Input("view-tabs", "value")
+    )
+    def toggle_tab_view(tab):
+        if tab == "summary":
+            return {"display": "block"}, {"display": "none"}
+        else:
+            return {"display": "none"}, {"display": "block"}
