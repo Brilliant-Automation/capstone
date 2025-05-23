@@ -22,7 +22,36 @@ print(f"Logs are being stored in: {LOG_FILE}")
 logging.info(f"Log file location: {LOG_FILE}")
 
 def log_dataframe_metadata(df, df_name):
-    """Logs basic metadata about a DataFrame"""
+    """
+    This function provides a summary of key attributes of the DataFrame for debugging
+    and monitoring purposes. It includes the shape of the DataFrame, its columns,
+    the count of null values per column, memory usage, and a preview of the first few rows.
+
+    Args:
+        df (pd.DataFrame): The DataFrame to analyze and log metadata for.
+        df_name (str): A descriptive name for the DataFrame to include in the logs (e.g., "Sensor DataFrame").
+
+    Example Log:
+        ============================================================================
+        DATAFRAME SUMMARY: Train Dataset
+        ============================================================================
+        Shape: (10000, 12)
+        Columns: col1, col2, col3, col4, ...
+        ----------------------------------------------------------------------------
+        Null values:
+          col1                      : 0
+          col2                      : 123
+          col3                      : 0
+          col4                      : 45
+        ----------------------------------------------------------------------------
+        Memory Usage: 1.56 MB
+        ----------------------------------------------------------------------------
+        Preview Dataframe Head:
+          col1  col2  col3
+          1      2     3
+          4      5     6
+
+    """
     separator = "=" * 80
     inner_separator = "-" * 80
 
@@ -140,10 +169,22 @@ def read_device_files(device_name, data_dir="../Data/raw", aws_mode=False, s3_bu
         rating_df = pd.read_excel(rating_file)
         return features_df, rating_df
 
-def filter_datetime_range(df, col, start, end):
-    """Filters a DataFrame to include rows where col is between start and end."""
-    logging.info(f"Filtering DataFrame by date range: {start} to {end} on column: {col}")
-    result_df = df[(df[col] >= start) & (df[col] <= end)]
+def filter_datetime_range(df, start, end):
+    """
+    Filters a DataFrame to include rows where the values in the 'datetime' column
+    fall within a given date range (inclusive).
+
+    Args:
+        df (pd.DataFrame): The DataFrame to filter.
+        start (datetime or str): The start of the date range (inclusive). Can be a datetime object or a valid date string.
+        end (datetime or str): The end of the date range (inclusive). Can be a datetime object or a valid date string.
+
+    Returns:
+        pd.DataFrame: A filtered DataFrame containing rows where the values in the 'datetime' column
+        are within the given date range.
+    """
+    logging.info(f"Filtering DataFrame by date range: {start} to {end} on the 'datetime' column")
+    result_df = df[(df['datetime'] >= start) & (df['datetime'] <= end)]
     logging.info(f"Shape after filtering: {result_df.shape}")
     return result_df
 
@@ -219,8 +260,8 @@ if __name__ == "__main__":
     overlap_start = max(min_feature_time, min_rating_time)
     overlap_end = min(max_feature_time, max_rating_time)
 
-    pivot_features_df = filter_datetime_range(pivot_features_df, "datetime", overlap_start, overlap_end)
-    pivot_rating_df = filter_datetime_range(pivot_rating_df, "datetime", overlap_start, overlap_end)
+    pivot_features_df = filter_datetime_range(pivot_features_df,  overlap_start, overlap_end)
+    pivot_rating_df = filter_datetime_range(pivot_rating_df, overlap_start, overlap_end)
 
     merged_df = pd.merge_asof(
         pivot_features_df,
