@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Get the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
-# Determine Python path
 PYTHON_PATH=$(which python)
 if [ -z "$PYTHON_PATH" ]; then
     echo "Error: Python not found in PATH"
@@ -14,7 +12,6 @@ echo "Using Python from: $PYTHON_PATH"
 
 echo "Starting pipeline execution at $(date)"
 
-# Function to run preprocessing for a device
 run_preprocessing() {
     local device="$1"
     echo "Processing device: $device"
@@ -27,14 +24,12 @@ run_preprocessing() {
     fi
 }
 
-# List of devices to process
 devices=(
     "1#High-Temp Fan"
     "8#Belt Conveyer"
     "Tube Mill"
 )
 
-# Process each device
 echo "=== Starting Data Preprocessing ==="
 failed_devices=()
 for device in "${devices[@]}"; do
@@ -43,7 +38,6 @@ for device in "${devices[@]}"; do
     fi
 done
 
-# Report preprocessing summary
 echo "=== Preprocessing Summary ==="
 if [ ${#failed_devices[@]} -eq 0 ]; then
     echo "All devices processed successfully"
