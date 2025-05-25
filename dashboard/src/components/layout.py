@@ -1,6 +1,6 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
-from components.dropdowns import device_dropdown, sensor_dropdown
+from components.dropdowns import date_range_dropdown, device_dropdown, sensor_dropdown
 from components.radar_chart import radar_chart_1, radar_chart_2
 from components.overlay_plot import frequency_chart
 from components.signal_charts import signal_charts_column
@@ -40,8 +40,9 @@ def create_layout():
 
         # Dropdowns
         dbc.Row([
-            dbc.Col(device_dropdown, width=4),
-            dbc.Col(sensor_dropdown, width=8)
+            dbc.Col(date_range_dropdown, width=3),
+            dbc.Col(device_dropdown, width=3),
+            dbc.Col(sensor_dropdown, width=6)
         ]),
 
         dbc.Row([
