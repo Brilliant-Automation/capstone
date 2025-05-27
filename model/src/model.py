@@ -159,7 +159,7 @@ def main():
         s3.put_object(Bucket=bucket, Key=key, Body=csv_buffer.getvalue())
         print(f"Results saved to s3://{bucket}/{key}")
     else:
-        output_file = f'cv_metrics_{args.device}_{args.model}.csv'
+        output_file = f'{args.device}_{args.model}_cv_metrics.csv'
         cv_df.to_csv(output_file, index=False)
         print(f"Results saved to {output_file}")
 
