@@ -6,6 +6,7 @@ from pathlib import Path
 import threading
 import boto3
 import io
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class DataLoader:
     _instance = None
     _lock = threading.Lock()
     _initialized = False
-    aws_mode = False
+    aws_mode = os.environ.get('DASHBOARD_AWS_MODE', '').lower() == 'true'
     s3_bucket = 'brilliant-automation-capstone'
     s3_key = 'sample_belt_conveyer.csv'
     
@@ -29,6 +30,7 @@ class DataLoader:
         if not self._initialized:
             with self._lock:
                 if not self._initialized:
+                    logger.info(f"Initializing DataLoader with AWS mode from environment: {self.aws_mode}")
                     self._initialize()
                     self._initialized = True
     
