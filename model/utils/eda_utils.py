@@ -229,13 +229,12 @@ def plot_input_target_correlation_heatmap(df, input_features, target_features, t
         input_features (list of str): List of input feature column names.
         target_features (list of str): List of target feature column names.
         title (str): Title of the heatmap.
-        save_path (str, optional): File path to save the plot. Defaults to None.
+        save_path (str, optional): File path to save the plot.
 
     Returns:
         None
     """
-    all_features = input_features + target_features
-    if not set(all_features).issubset(df.columns):
+    if not set(input_features + target_features).issubset(df.columns):
         raise ValueError("Some input or target features are missing from the DataFrame.")
 
     correlation_matrix = df[input_features + target_features].corr()
@@ -253,7 +252,7 @@ def plot_input_target_correlation_heatmap(df, input_features, target_features, t
         plt.savefig(f"{save_path}/input_target_correlation_heatmap.png", dpi=300, bbox_inches="tight")
     plt.show()
 
-def plot_input_target_pairplot(df, input_features, target_features, title="Pairplot of Input vs Target Features",
+def plot_input_target_pairplot(df, input_features, target_features, title,
                                       save_path=None):
     """
     Plot a pairplot showing the relationship between input features and target features.
@@ -262,8 +261,8 @@ def plot_input_target_pairplot(df, input_features, target_features, title="Pairp
         df (pd.DataFrame): The DataFrame containing the data.
         input_features (list of str): List of input feature column names.
         target_features (list of str): List of target feature column names.
-        title (str, optional): Title of the plot. Defaults to "Pairplot of Input vs Target Features".
-        save_path (str, optional): File path to save the plot. Defaults to None.
+        title (str): Title of the Pairplot.
+        save_path (str, optional): File path to save the plot.
 
     Returns:
         None
