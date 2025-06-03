@@ -50,7 +50,7 @@ def index():
 if __name__ == "__main__":
     # Initial data load
     logger.info("Performing initial data load...")
-    data_loader.update_data()
+    data_loader.update_all_data()
     
     logger.info("Starting Flask server...")
     server.run(debug=True, host='0.0.0.0', port=8050)
