@@ -49,7 +49,7 @@ def process_device(device_name, aws_mode=False, s3_bucket='brilliant-automation-
             df = pd.read_csv(io.BytesIO(obj['Body'].read()))
             
             # Process the data
-            df = load_and_clean_data(df)
+            df = df.dropna()
             
             # Write back to S3
             csv_buffer = io.StringIO()
