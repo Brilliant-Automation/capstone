@@ -51,7 +51,7 @@ class DataLoader:
         else:
             current_file = Path(__file__)
             project_root = current_file.parent.parent.parent.parent
-            self._data_path = project_root / "Data" / "sample_belt_conveyer_full.csv"
+            self._data_path = project_root / "Data" / "process" / "8#Belt Conveyer_full.csv"
             logger.info(f"Data path set to: {self._data_path}")
         
         self._scheduler = BackgroundScheduler()
