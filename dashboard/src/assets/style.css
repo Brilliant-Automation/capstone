@@ -2,7 +2,6 @@ html, body, .dash-container {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 .dash-container .row, .dash-container .col {
@@ -10,7 +9,7 @@ html, body, .dash-container {
 }
 
 .dashboard-row {
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: row;
 }
@@ -18,7 +17,7 @@ html, body, .dash-container {
 .dashboard-col {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
   gap: 0.5rem;
 }
 
@@ -30,8 +29,10 @@ html, body, .dash-container {
 }
 
 .view-container {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .Select-control {
@@ -47,6 +48,7 @@ html, body, .dash-container {
   display: flex;
   flex: 1;
   gap: 0.5rem;
+  min-height: 300px;
 }
 
 .radar-row .dash-graph,
@@ -65,7 +67,7 @@ html, body, .dash-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 100%;
+  min-height: 400px;
   gap: 0.5rem;
   width: 100%;
 }
