@@ -1,33 +1,41 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
-from components.dropdowns import create_date_range_dropdown, device_dropdown, sensor_dropdown
+from components.dropdowns import create_date_range_dropdown, device_dropdown, dual_sensor_dropdown
 from components.radar_chart import radar_chart_1, radar_chart_2
-from components.overlay_plot import frequency_chart
+from components.overlay_plot import rating_health_chart, frequency_chart
 from components.signal_charts import signal_charts_column
 from components.header_timestamp import header_timestamp
 
 def summary_view():
     return html.Div([
-        # Radar charts
+        # Rating radar charts
         dbc.Row([
             dbc.Col(radar_chart_1),
             dbc.Col(radar_chart_2)
         ], className="radar-row"),
-        # Overlay plot
+
+        # Rating overlay
         dbc.Row([
-            dbc.Col(frequency_chart)
-        ], class_name="frequency-row")
+            dbc.Col(rating_health_chart)
+        ], className="frequency-row")
     ], className="dashboard-col")
 
 def signal_view():
     return html.Div([
-        html.Div([
+        # Signal overlay
+        dbc.Row([
+            dbc.Col(frequency_chart)
+        ], className="frequency-row"),
+
+        # Signal charts
+        dbc.Row([
             dcc.Graph(id="signal-chart-sig-raw", className="signal-chart", config={"displayModeBar": False}),
             dcc.Graph(id="signal-chart-sig-fft", className="signal-chart", config={"displayModeBar": False}),
             dcc.Graph(id="signal-chart-env", className="signal-chart", config={"displayModeBar": False}),
             dcc.Graph(id="signal-chart-env-fft", className="signal-chart", config={"displayModeBar": False}),
         ], className="signal-row")
     ], style={"height": "100%", "width": "100%"})
+
 
 def create_layout():
     return dbc.Container([
@@ -42,7 +50,7 @@ def create_layout():
             dbc.Col(create_date_range_dropdown("start"), width=2),
             dbc.Col(create_date_range_dropdown("end"), width=2),
             dbc.Col(device_dropdown, width=3, className="dropdown-input"),
-            dbc.Col(sensor_dropdown, width=5, className="dropdown-input"),
+            dbc.Col(dual_sensor_dropdown, width=5, className="dropdown-input"),
         ]),
 
         dbc.Row([

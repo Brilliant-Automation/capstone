@@ -15,3 +15,15 @@ DESCRIPTIONS = {
     "rotor_balance_status": "f(phase_diff, amplitude)",
     "rubbing_condition": "f(high_freq_noise, friction)"
 }
+
+# techdebt: hardcoding col names - should vary by what is in df
+CHART_1_COLS = [
+    "alignment_status", "bearing_lubrication", "electromagnetic_status",
+    "fit_condition", "rotor_balance_status", "rubbing_condition"
+]
+
+# techdebt: hardcoding col names - should include all remaining, and narrow down without breaking
+CHART_2_COLS = [
+    "velocity_rms", "crest_factor", "kurtosis_opt",
+    "peak_value_opt", "rms_10_25khz", "rms_1_10khz"
+]

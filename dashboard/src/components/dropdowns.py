@@ -36,14 +36,61 @@ def create_device_dropdown():
         clearable=False
     )
 
-def create_sensor_dropdown():
-    locations = get_unique_locations()
+def create_sensor_dropdown(options=None, default_values=None, dropdown_id="sensor-dropdown"):
+    if options is None:
+        locations = get_unique_locations()
+        options = [{"label": f"{COLOUR_EMOJI.get(loc, '')} {loc}", "value": loc} for loc in locations]
+        default_values = locations if default_values is None else default_values
+    else:
+        if default_values is None:
+            default_values = [options[0]["value"]] if options else []
+    
     return dcc.Dropdown(
-        id="sensor-dropdown",
-        options=[{"label": f"{COLOUR_EMOJI.get(loc, '')} {loc}", "value": loc} for loc in locations],
-        value=locations,
-        multi=True
+        id=dropdown_id,
+        options=options,
+        value=default_values,
+        multi=True,
+        placeholder=""
     )
 
+def create_ratings_dropdown():
+    from components.constants import CHART_1_COLS, CHART_2_COLS
+    
+    ratings = CHART_1_COLS + CHART_2_COLS
+    options = [{"label": r.replace('_', ' ').title(), "value": r} for r in ratings]
+    
+    return create_sensor_dropdown(
+        options=options,
+        default_values=ratings,
+        dropdown_id="ratings-dropdown"
+    )
+
+def create_locations_dropdown():
+    locations = get_unique_locations()
+    options = [{"label": f"{COLOUR_EMOJI.get(loc, '')} {loc}", "value": loc} for loc in locations]
+    
+    return create_sensor_dropdown(
+        options=options,
+        default_values=locations,
+        dropdown_id="locations-dropdown"
+    )
+
+def create_dual_sensor_dropdown():
+    return html.Div([
+        # Ratings dropdown
+        html.Div(
+            create_ratings_dropdown(),
+            id="ratings-dropdown-container",
+            style={"display": "block"}
+        ),
+        
+        # Locations dropdown
+        html.Div(
+            create_locations_dropdown(),
+            id="locations-dropdown-container", 
+            style={"display": "none"}
+        )
+    ])
+
 device_dropdown = create_device_dropdown()
-sensor_dropdown = create_sensor_dropdown()
+dual_sensor_dropdown = create_dual_sensor_dropdown()
