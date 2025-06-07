@@ -1,7 +1,7 @@
 from dash import dcc
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from .constants import CHART_1_COLS, CHART_2_COLS, DESCRIPTIONS
+from utils.config import CHART_1_COLS, CHART_2_COLS, DESCRIPTIONS
 
 # techdebt: more descriptive names
 radar_chart_1 = dcc.Graph(

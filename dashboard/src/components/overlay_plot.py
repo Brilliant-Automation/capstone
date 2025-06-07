@@ -1,7 +1,7 @@
 from dash import dcc
 import plotly.graph_objs as go
 from utils.plot_config import format_plot
-from utils.colours import COLOUR_MAP
+from utils.config import LOCATION_COLOUR_MAP, RATING_COLOUR_MAP
 
 rating_health_chart = dcc.Graph(
     id="rating-health-chart",
@@ -20,15 +20,25 @@ frequency_chart = dcc.Graph(
 def create_overlay_figure(df, y_columns, y_label):
     traces = []
     
+    is_rating_chart = "Rating Health" in y_label
+    
     for col in y_columns:
         for loc in df["location"].unique():
             subset = df[df["location"] == loc]
+            
+            if is_rating_chart:
+                color = RATING_COLOUR_MAP.get(col, "#1f77b4")
+                name = f"{loc} - {col.replace('_', ' ').title()}"
+            else:
+                color = LOCATION_COLOUR_MAP.get(loc, "#1f77b4")
+                name = f"{loc} - {col}"
+            
             traces.append(go.Scatter(
                 x=subset["timestamp"],
                 y=subset[col],
                 mode="lines",
-                name=f"{loc} - {col}",
-                line=dict(color=COLOUR_MAP.get(loc))
+                name=name,
+                line=dict(color=color)
             ))
 
     fig = go.Figure(data=traces)

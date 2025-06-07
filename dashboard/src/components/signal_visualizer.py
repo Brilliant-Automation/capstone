@@ -3,7 +3,7 @@ from scipy.fft import fft, fftfreq
 from scipy.signal import hilbert
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from utils.colours import COLOUR_MAP
+from utils.config import LOCATION_COLOUR_MAP
 
 class SignalVisualizer:
     """
@@ -50,10 +50,10 @@ class SignalVisualizer:
         return signal, time, freq
 
     def compute_y_values(self, signal):
-        # remove DC component from signal by subtracting mean
+        # Remove DC component from signal by subtracting mean
         signal = signal - np.mean(signal)
         envelope = np.abs(hilbert(signal))
-        # do the same with the envelope
+        # Do the same with the envelope
         envelope = envelope - np.mean(envelope)
         fft_vals = np.abs(fft(signal))[:len(signal)//2]
         fft_env = np.abs(fft(envelope))[:len(signal)//2]
@@ -73,7 +73,7 @@ class SignalVisualizer:
         for i, (x, y, xlabel, ylabel) in chart_data.items():
             self.figures[i].add_trace(go.Scatter(
                 x=x, y=y, mode="lines", name=location,
-                line=dict(color=COLOUR_MAP.get(location))
+                line=dict(color=LOCATION_COLOUR_MAP.get(location))
             ))
             self.figures[i].update_layout(xaxis_title=xlabel, yaxis_title=ylabel)
 

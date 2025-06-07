@@ -4,8 +4,7 @@ from utils.data_loader import load_data, get_unique_locations
 from components.radar_chart import update_radar_chart
 from components.overlay_plot import create_overlay_figure
 from components.signal_charts import update_signal_charts
-from components.constants import CHART_1_COLS, CHART_2_COLS
-from utils.colours import COLOUR_EMOJI
+from utils.config import CHART_1_COLS, CHART_2_COLS, LOCATION_COLOUR_EMOJI
 
 
 def register_callbacks(app):
