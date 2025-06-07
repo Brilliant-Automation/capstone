@@ -47,23 +47,28 @@ def create_layout():
 
         # Dropdowns
         dbc.Row([
-            dbc.Col(create_date_range_dropdown("start"), width=2),
-            dbc.Col(create_date_range_dropdown("end"), width=2),
-            dbc.Col(device_dropdown, width=3, className="dropdown-input"),
-            dbc.Col(dual_sensor_dropdown, width=5, className="dropdown-input"),
+            dbc.Col(device_dropdown, width=4, className="dropdown-input"),
+            dbc.Col(create_date_range_dropdown("start"), width=4),
+            dbc.Col(create_date_range_dropdown("end"), width=4),
         ]),
 
+        # Tabs
         dbc.Row([
             dbc.Col([
                 dcc.Tabs(
                     id="view-tabs",
                     value="summary",
                     children=[
-                        dcc.Tab(label="Summary View", value="summary"),
-                        dcc.Tab(label="Signal View", value="signal"),
+                        dcc.Tab(label="Ratings Data", value="summary"),
+                        dcc.Tab(label="Sensor Location Data", value="signal"),
                     ]
                 )
             ])
+        ]),
+
+        # Dropdowns
+        dbc.Row([
+            dbc.Col(dual_sensor_dropdown, width=12, className="dropdown-input"),
         ]),
 
         dbc.Row([
