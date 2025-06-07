@@ -1,7 +1,7 @@
 from dash import dcc
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from components.ratings_descriptions import DESCRIPTIONS
+from .constants import CHART_1_COLS, CHART_2_COLS, DESCRIPTIONS
 
 # techdebt: more descriptive names
 radar_chart_1 = dcc.Graph(
@@ -18,18 +18,6 @@ radar_chart_2 = dcc.Graph(
     className="graph-container", 
     config={"displayModeBar": False}
     )
-
-# techdebt: hardcoding col names - should vary by what is in df
-CHART_1_COLS = [
-    "alignment_status", "bearing_lubrication", "electromagnetic_status",
-    "fit_condition", "rotor_balance_status", "rubbing_condition"
-]
-
-# techdebt: hardcoding col names - should include all remaining, and narrow down without breaking
-CHART_2_COLS = [
-    "velocity_rms", "crest_factor", "kurtosis_opt",
-    "peak_value_opt", "rms_10_25khz", "rms_1_10khz"
-]
 
 def update_radar_chart(df, chart_id):
     if df.empty:
