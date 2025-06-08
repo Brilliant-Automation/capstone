@@ -1,7 +1,7 @@
 from dash import dcc
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from utils.config import CHART_1_COLS, CHART_2_COLS, RATING_DESCRIPTIONS
+from utils.config import RATINGS, RATING_DESCRIPTIONS
 
 # techdebt: more descriptive names
 radar_chart_1 = dcc.Graph(
@@ -23,7 +23,7 @@ def update_radar_chart(df, chart_id):
     if df.empty:
         return go.Figure()
     
-    cols = CHART_1_COLS if chart_id == 1 else CHART_2_COLS
+    cols = RATINGS["chart_1_cols"] if chart_id == 1 else RATINGS["chart_2_cols"]
     means = df[cols].mean()
     labels = [
         f"<span style='text-align:center; display:block'>{col.replace('_', ' ').title()}<br>{v:.1f}</span>"
