@@ -1,7 +1,7 @@
 from dash import dcc
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from utils.config import CHART_1_COLS, CHART_2_COLS, DESCRIPTIONS
+from utils.config import CHART_1_COLS, CHART_2_COLS, RATING_DESCRIPTIONS
 
 # techdebt: more descriptive names
 radar_chart_1 = dcc.Graph(
@@ -37,7 +37,7 @@ def update_radar_chart(df, chart_id):
         fill="toself",
         name="",
         hovertemplate=[
-        f"{DESCRIPTIONS.get(col, '')}"
+        f"{RATING_DESCRIPTIONS.get(col, '')}"
         for col in means.index
         ],
         hoverlabel=dict(
