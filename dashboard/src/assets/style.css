@@ -4,21 +4,9 @@ html, body, .dash-container {
   padding: 0;
 }
 
-.dash-container .row, .dash-container .col {
+.dash-container .row, 
+.dash-container .col {
   padding: 0.3rem;
-}
-
-.dashboard-row {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: row;
-}
-
-.dashboard-col {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  gap: 0.5rem;
 }
 
 .dashboard-header {
@@ -26,13 +14,6 @@ html, body, .dash-container {
   margin: 0;
   padding: 0;
   text-align: left;
-}
-
-.view-container {
-  min-height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .Select-control {
@@ -44,41 +25,25 @@ html, body, .dash-container {
   box-sizing: border-box;
 }
 
-.radar-row, .frequency-row {
-  display: flex;
-  flex: 1;
-  gap: 0.5rem;
-  min-height: 300px;
+.tab-parent .tab {
+  font-size: 18px !important;
 }
 
-.radar-row .dash-graph,
-.frequency-row .dash-graph {
-  flex: 1;
-  height: 100% !important;
-  width: 100% !important;
+.tab-content-container {
+  min-height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 2rem;
 }
 
-.graph-container {
-  min-height: 15rem;
-  height: clamp(15rem, 40%, 22rem);
-}
-
-.signal-row {
-  display: flex;
-  flex-direction: row;
+.graph-row {
   justify-content: space-between;
   min-height: 400px;
-  gap: 0.5rem;
   width: 100%;
 }
 
-.signal-chart {
-  flex: 1;
-  height: 100%;
-  min-width: 0;
-}
-
-.signal-row .dash-graph {
+.graph-row .dash-graph {
   height: 100% !important;
-  width: 100% !important;
+  min-width: 0;
 }
