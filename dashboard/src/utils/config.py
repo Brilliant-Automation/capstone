@@ -10,7 +10,7 @@ CHART_2_COLS = [
     "peak_value_opt", "rms_10_25khz", "rms_1_10khz"
 ]
 
-DESCRIPTIONS = {
+RATING_DESCRIPTIONS = {
     "velocity_rms": "√(1/N × Σ(v_z²))",
     "crest_factor": "Peak / RMS",
     "kurtosis_opt": "μ₄ / μ₂²",
@@ -70,3 +70,5 @@ RATING_COLOUR_EMOJI = {
     "rms_10_25khz": "🟣🔵",
     "rms_1_10khz": "⚫🟢",
 }
+
+FEATURES = {"vibration_velocity_z":"Vibration Velocity Z"}

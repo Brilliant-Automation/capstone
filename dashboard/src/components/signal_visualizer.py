@@ -3,7 +3,7 @@ from scipy.fft import fft, fftfreq
 from scipy.signal import hilbert
 import plotly.graph_objects as go
 from utils.plot_config import format_plot
-from utils.config import LOCATION_COLOUR_MAP
+from utils.config import LOCATION_COLOUR_MAP, FEATURES
 
 class SignalVisualizer:
     """
@@ -43,7 +43,7 @@ class SignalVisualizer:
 
     def preprocess(self, location):
         df_loc = self.df[self.df["location"] == location].sort_values("timestamp")
-        signal = df_loc["Vibration Velocity Z"].dropna().values
+        signal = df_loc[FEATURES["vibration_velocity_z"]].dropna().values
         time = df_loc["timestamp"].values
         N = len(signal)
         freq = fftfreq(N, self.T)[:N//2]
