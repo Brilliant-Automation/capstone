@@ -79,6 +79,7 @@ def create_locations_dropdown():
         dropdown_id="locations-dropdown"
     )
 
+# techdebt: rename for clarity, is also rating, not dual sensor
 def create_dual_sensor_dropdown():
     return html.Div([
         # Ratings dropdown
