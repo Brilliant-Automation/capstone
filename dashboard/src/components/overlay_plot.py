@@ -3,15 +3,15 @@ import plotly.graph_objs as go
 from utils.plot_config import format_plot
 from utils.config import LOCATION_COLOUR_MAP, RATING_COLOUR_MAP
 
-rating_health_chart = dcc.Graph(
-    id="rating-health-chart",
+rating_health_graph = dcc.Graph(
+    id="rating-health-graph",
     figure=go.Figure(),
     className="graph-container",
     config={"displayModeBar": False}
 )
 
-frequency_chart = dcc.Graph(
-    id="frequency-chart",
+high_frequency_graph = dcc.Graph(
+    id="frequency-graph",
     figure=go.Figure(),
     className="graph-container",
     config={"displayModeBar": False}
@@ -20,13 +20,13 @@ frequency_chart = dcc.Graph(
 def create_overlay_figure(df, y_columns, y_label):
     traces = []
     
-    is_rating_chart = "Rating Health" in y_label
+    is_rating_graph = "Rating Health" in y_label
     
     for col in y_columns:
         for loc in df["location"].unique():
             subset = df[df["location"] == loc]
             
-            if is_rating_chart:
+            if is_rating_graph:
                 color = RATING_COLOUR_MAP.get(col, "#1f77b4")
                 name = f"{loc} - {col.replace('_', ' ').title()}"
             else:

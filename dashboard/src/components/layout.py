@@ -1,40 +1,40 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
-from components.dropdowns import create_date_range_dropdown, device_dropdown, dual_sensor_dropdown
-from components.radar_chart import radar_chart_1, radar_chart_2
-from components.overlay_plot import rating_health_chart, frequency_chart
-from components.signal_charts import signal_chart_sig_raw, signal_chart_env, signal_chart_sig_fft, signal_chart_env_fft
-from components.header_timestamp import header_timestamp
+from .dropdowns import create_date_range_dropdown, device_dropdown, dual_dropdown
+from .radar_graphs import radar_graph_1, radar_graph_2
+from .overlay_plot import rating_health_graph, high_frequency_graph
+from .signal_graphs import signal_graph_sig_raw, signal_graph_env, signal_graph_sig_fft, signal_graph_env_fft
+from .header_timestamp import header_timestamp
 
-def summary_view():
+def ratings_view():
     return[
-        # Rating radar charts
+        # Rating radar graphs
         dbc.Row([
-            dbc.Col(radar_chart_1),
-            dbc.Col(radar_chart_2)
+            dbc.Col(radar_graph_1),
+            dbc.Col(radar_graph_2)
         ], className="graph-row"),
 
         # Rating overlay
         dbc.Row([
-            dbc.Col(rating_health_chart, width=12)
+            dbc.Col(rating_health_graph)
         ], className="graph-row")
     ]
 
-def signal_view():
+def sensor_view():
     return [
-        # Signal overlay
+        # High frequency overlay
         dbc.Row([
-            dbc.Col(frequency_chart)
+            dbc.Col(high_frequency_graph)
         ], className="graph-row"),
 
-        # Signal charts
+        # Signal graphs
         dbc.Row([
-            dbc.Col(signal_chart_sig_raw),
-            dbc.Col(signal_chart_env),
+            dbc.Col(signal_graph_sig_raw),
+            dbc.Col(signal_graph_sig_fft),
         ], className="graph-row"),
         dbc.Row([
-            dbc.Col(signal_chart_sig_fft),
-            dbc.Col(signal_chart_env_fft),
+            dbc.Col(signal_graph_env),
+            dbc.Col(signal_graph_env_fft),
         ], className="graph-row")
     ]
 
@@ -59,10 +59,10 @@ def create_layout():
             dbc.Col([
                 dcc.Tabs(
                     id="view-tabs",
-                    value="summary",
+                    value="ratings",
                     children=[
-                        dcc.Tab(label="Ratings Data", value="summary"),
-                        dcc.Tab(label="Sensor Location Data", value="signal"),
+                        dcc.Tab(label="Ratings Data", value="ratings"),
+                        dcc.Tab(label="Sensor Location Data", value="sensor"),
                     ]
                 )
             ])
@@ -70,14 +70,14 @@ def create_layout():
 
         # Rating/Location Dropdowns
         dbc.Row([
-            dbc.Col(dual_sensor_dropdown, width=12, className="dropdown-input"),
+            dbc.Col(dual_dropdown, width=12, className="dropdown-input"),
         ]),
 
         # Graphs
         dbc.Row([
             dbc.Col([
-                html.Div(id="summary-view", children=summary_view(), className="tab-content-container"),
-                html.Div(id="signal-view", children=signal_view(), className="tab-content-container", style={"display": "none"})
+                html.Div(id="ratings-view", children=ratings_view(), className="tab-content-container"),
+                html.Div(id="signal-view", children=sensor_view(), className="tab-content-container", style={"display": "none"})
             ])
         ])
     ], className="dash-container", fluid=True)

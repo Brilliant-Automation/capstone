@@ -1,15 +1,15 @@
 # techdebt: hardcoding col names - should vary by what is in df
-# techdebt: hardcoding col names - should include all remaining, and narrow down without breaking
 RATINGS = {
-    "chart_1_cols": [
+    "status_cols": [
         "alignment_status", "bearing_lubrication", "electromagnetic_status",
         "fit_condition", "rotor_balance_status", "rubbing_condition"
     ], 
-    "chart_2_cols": [
+    "metric_cols": [
         "velocity_rms", "crest_factor", "kurtosis_opt",
         "peak_value_opt", "rms_10_25khz", "rms_1_10khz"
     ]}
 
+# TODO: update descriptions with final models
 RATING_DESCRIPTIONS = {
     "velocity_rms": "√(1/N × Σ(v_z²))",
     "crest_factor": "Peak / RMS",
@@ -28,7 +28,7 @@ RATING_DESCRIPTIONS = {
     "rubbing_condition": "f(high_freq_noise, friction)"
 }
 
-# techdebt: add colours for other devices' locations
+# TODO: add colours for other devices' locations
 LOCATION_COLOUR_MAP = {
     "Gear Reducer": "#1f77b4",
     "Gearbox First Shaft Input End": "#ff7f0e",
@@ -71,4 +71,5 @@ RATING_COLOUR_EMOJI = {
     "rms_1_10khz": "⚫🟢",
 }
 
+# techdebt: add other feature col names
 FEATURES = {"vibration_velocity_z":"Vibration Velocity Z"}

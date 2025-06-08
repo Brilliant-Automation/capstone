@@ -4,26 +4,26 @@ from utils.plot_config import format_plot
 from utils.config import RATINGS, RATING_DESCRIPTIONS
 
 # techdebt: more descriptive names
-radar_chart_1 = dcc.Graph(
-    id="radar-chart-1", 
+radar_graph_1 = dcc.Graph(
+    id="radar-graph-1", 
     figure=go.Figure(), 
     className="graph-container", 
     config={"displayModeBar": False}
     )
 
 # techdebt: more descriptive names
-radar_chart_2 = dcc.Graph(
-    id="radar-chart-2", 
+radar_graph_2 = dcc.Graph(
+    id="radar-graph-2", 
     figure=go.Figure(), 
     className="graph-container", 
     config={"displayModeBar": False}
     )
 
-def update_radar_chart(df, chart_id):
+def update_radar_graph(df, graph_id):
     if df.empty:
         return go.Figure()
     
-    cols = RATINGS["chart_1_cols"] if chart_id == 1 else RATINGS["chart_2_cols"]
+    cols = RATINGS["status_cols"] if graph_id == 1 else RATINGS["metric_cols"]
     means = df[cols].mean()
     labels = [
         f"<span style='text-align:center; display:block'>{col.replace('_', ' ').title()}<br>{v:.1f}</span>"

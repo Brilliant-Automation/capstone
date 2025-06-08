@@ -5,20 +5,20 @@ from utils.config import FEATURES
 
 STANDARD_NUMBER_OF_PLOTS = 4
 
-def create_signal_chart(chart_id):
+def create_signal_graph(graph_id):
     return dcc.Graph(
-        id=chart_id,
+        id=graph_id,
         figure=go.Figure(),
-        className="signal-chart", 
+        className="signal-graph", 
         config={"displayModeBar": False}
     )
 
-signal_chart_sig_raw = create_signal_chart("signal-chart-sig-raw")
-signal_chart_sig_fft = create_signal_chart("signal-chart-sig-fft")
-signal_chart_env = create_signal_chart("signal-chart-env")
-signal_chart_env_fft = create_signal_chart("signal-chart-env-fft")
+signal_graph_sig_raw = create_signal_graph("signal-graph-sig-raw")
+signal_graph_sig_fft = create_signal_graph("signal-graph-sig-fft")
+signal_graph_env = create_signal_graph("signal-graph-env")
+signal_graph_env_fft = create_signal_graph("signal-graph-env-fft")
 
-def update_signal_charts(df):
+def update_signal_graphs(df):
     if df.empty or FEATURES['vibration_velocity_z'] not in df.columns:
         return [go.Figure()] * STANDARD_NUMBER_OF_PLOTS
     return SignalVisualizer(df).generate()

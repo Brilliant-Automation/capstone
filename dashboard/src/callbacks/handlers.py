@@ -1,24 +1,23 @@
 from dash import Input, Output, State
 from utils.data_loader import load_data
-from components.radar_chart import update_radar_chart
+from components.radar_graphs import update_radar_graph
 from components.overlay_plot import create_overlay_figure
-from components.signal_charts import update_signal_charts
+from components.signal_graphs import update_signal_graphs
 
 def register_callbacks(app):
     @app.callback(
         [Output("ratings-dropdown-container", "style"),
-         Output("locations-dropdown-container", "style")],
+         Output("sensor-dropdown-container", "style")],
         Input("view-tabs", "value")
     )
     def toggle_dropdown_visibility(tab):
-        """Toggle visibility between ratings and locations dropdowns based on tab"""
-        if tab == "summary":
+        if tab == "ratings":
             return {"display": "block"}, {"display": "none"}
         else:
             return {"display": "none"}, {"display": "block"}
 
     @app.callback(
-        Output("rating-health-chart", "figure"),
+        Output("rating-health-graph", "figure"),
         [
             Input("start-date", "date"),
             Input("end-date", "date"),
@@ -29,9 +28,8 @@ def register_callbacks(app):
         ],
         State("view-tabs", "value")
     )
-    def update_health_chart(start_date, end_date, start_time, end_time, selected_device, selected_ratings, current_tab):
-        """Update health chart only when in summary mode and inputs change"""
-        if current_tab != "summary" or selected_ratings is None or selected_device is None:
+    def update_health_graph(start_date, end_date, start_time, end_time, selected_device, selected_ratings, current_tab):
+        if current_tab != "ratings" or selected_ratings is None or selected_device is None:
             from plotly.graph_objects import Figure
             return Figure()
         
@@ -46,13 +44,13 @@ def register_callbacks(app):
     @app.callback(
         [
             Output("timestamp-header", "children"),
-            Output("radar-chart-1", "figure"),
-            Output("radar-chart-2", "figure"),
-            Output("frequency-chart", "figure"),
-            Output("signal-chart-sig-raw", "figure"),
-            Output("signal-chart-sig-fft", "figure"),
-            Output("signal-chart-env", "figure"),
-            Output("signal-chart-env-fft", "figure")
+            Output("radar-graph-1", "figure"),
+            Output("radar-graph-2", "figure"),
+            Output("frequency-graph", "figure"),
+            Output("signal-graph-sig-raw", "figure"),
+            Output("signal-graph-sig-fft", "figure"),
+            Output("signal-graph-env", "figure"),
+            Output("signal-graph-env-fft", "figure")
         ],
         [
             Input("start-date", "date"),
@@ -60,11 +58,11 @@ def register_callbacks(app):
             Input("start-time", "value"),
             Input("end-time", "value"),
             Input("device-dropdown", "value"),
-            Input("locations-dropdown", "value"),
+            Input("sensor-dropdown", "value"),
             Input("view-tabs", "value")
         ]
     )
-    def update_all_charts(start_date, end_date, start_time, end_time, selected_device, selected_locations, current_tab):
+    def update_all_graphs(start_date, end_date, start_time, end_time, selected_device, selected_locations, current_tab):
         if selected_locations is None or selected_device is None:
             from plotly.graph_objects import Figure
             empty_fig = Figure()
@@ -86,20 +84,20 @@ def register_callbacks(app):
             end = df["timestamp"].max().strftime('%Y-%m-%d %H:%M:%S')
             header_str = f"{start} - {end}"
 
-        radar1 = update_radar_chart(df, chart_id=1)
-        radar2 = update_radar_chart(df, chart_id=2)
+        radar1 = update_radar_graph(df, graph_id=1)
+        radar2 = update_radar_graph(df, graph_id=2)
         freq_fig = create_overlay_figure(df, y_columns=["High-Frequency Acceleration"], y_label="High-Frequency Acceleration (a.u.)")
-        signal_figs = update_signal_charts(df)
+        signal_figs = update_signal_graphs(df)
 
         return header_str, radar1, radar2, freq_fig, *signal_figs
 
     @app.callback(
-        Output("summary-view", "style"),
+        Output("ratings-view", "style"),
         Output("signal-view", "style"),
         Input("view-tabs", "value")
     )
     def toggle_tab_view(tab):
-        if tab == "summary":
+        if tab == "ratings":
             return {"display": "block"}, {"display": "none"}
         else:
             return {"display": "none"}, {"display": "block"}

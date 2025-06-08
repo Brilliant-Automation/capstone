@@ -20,7 +20,7 @@ class SignalVisualizer:
     Attributes:
         df (pd.DataFrame): Input DataFrame containing 'timestamp', 'location', and 'Vibration Velocity Z' columns.
         T (float): Sampling interval in seconds.
-        figures (list): List of Plotly `go.Figure` objects, one per chart.
+        figures (list): List of Plotly `go.Figure` objects, one per graph.
 
     Methods:
         preprocess(location):
@@ -63,14 +63,14 @@ class SignalVisualizer:
         signal, time, freq = self.preprocess(location)
         envelope, fft_vals, fft_env = self.compute_y_values(signal)
 
-        chart_data = {
+        graph_data = {
             0: (time, signal, "Time", "Velocity [mm/s]"),
             1: (freq, fft_vals, "Frequency [Hz]", "Amplitude"),
             2: (time, envelope, "Time", "Envelope Amplitude"),
             3: (freq, fft_env, "Frequency [Hz]", "Amplitude"),
         }
 
-        for i, (x, y, xlabel, ylabel) in chart_data.items():
+        for i, (x, y, xlabel, ylabel) in graph_data.items():
             self.figures[i].add_trace(go.Scatter(
                 x=x, y=y, mode="lines", name=location,
                 line=dict(color=LOCATION_COLOUR_MAP.get(location))

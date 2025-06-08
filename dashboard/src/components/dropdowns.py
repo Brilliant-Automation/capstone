@@ -3,6 +3,15 @@ import dash_bootstrap_components as dbc
 from utils.data_loader import get_unique_devices, get_unique_locations, data_loader
 from utils.config import LOCATION_COLOUR_EMOJI, RATING_COLOUR_EMOJI, RATINGS
 
+def create_device_dropdown():
+    devices = get_unique_devices()
+    return dcc.Dropdown(
+        id="device-dropdown",
+        options=[{"label": device, "value": device} for device in devices],
+        value=devices[0] if devices else None,
+        clearable=False
+    )
+
 def create_date_range_dropdown(id_prefix):
     df = data_loader.get_data()
     min_ts = df["timestamp"].min()
@@ -26,17 +35,7 @@ def create_date_range_dropdown(id_prefix):
         )
     ], className="datetime-selector")
 
-
-def create_device_dropdown():
-    devices = get_unique_devices()
-    return dcc.Dropdown(
-        id="device-dropdown",
-        options=[{"label": device, "value": device} for device in devices],
-        value=devices[0] if devices else None,
-        clearable=False
-    )
-
-def create_sensor_dropdown(options=None, default_values=None, dropdown_id="sensor-dropdown"):
+def create_sub_device_dropdown(options=None, default_values=None, dropdown_id="sensor-dropdown"):
     if options is None:
         locations = get_unique_locations()
         options = [{"label": f"{LOCATION_COLOUR_EMOJI.get(loc, '')} {loc}", "value": loc} for loc in locations]
@@ -54,7 +53,7 @@ def create_sensor_dropdown(options=None, default_values=None, dropdown_id="senso
     )
 
 def create_ratings_dropdown():
-    ratings = RATINGS["chart_1_cols"] + RATINGS["chart_2_cols"]
+    ratings = RATINGS["status_cols"] + RATINGS["metric_cols"]
     options = [
         {
             "label": f"{RATING_COLOUR_EMOJI.get(r, '')} {r.replace('_', ' ').title()}", 
@@ -63,24 +62,23 @@ def create_ratings_dropdown():
         for r in ratings
     ]
     
-    return create_sensor_dropdown(
+    return create_sub_device_dropdown(
         options=options,
         default_values=ratings,
         dropdown_id="ratings-dropdown"
     )
 
-def create_locations_dropdown():
+def create_sensor_dropdown():
     locations = get_unique_locations()
     options = [{"label": f"{LOCATION_COLOUR_EMOJI.get(loc, '')} {loc}", "value": loc} for loc in locations]
     
-    return create_sensor_dropdown(
+    return create_sub_device_dropdown(
         options=options,
         default_values=locations,
-        dropdown_id="locations-dropdown"
+        dropdown_id="sensor-dropdown"
     )
 
-# techdebt: rename for clarity, is also rating, not dual sensor
-def create_dual_sensor_dropdown():
+def create_dual_dropdown():
     return html.Div([
         # Ratings dropdown
         html.Div(
@@ -91,11 +89,11 @@ def create_dual_sensor_dropdown():
         
         # Locations dropdown
         html.Div(
-            create_locations_dropdown(),
-            id="locations-dropdown-container", 
+            create_sensor_dropdown(),
+            id="sensor-dropdown-container", 
             style={"display": "none"}
         )
     ])
 
 device_dropdown = create_device_dropdown()
-dual_sensor_dropdown = create_dual_sensor_dropdown()
+dual_dropdown = create_dual_dropdown()
