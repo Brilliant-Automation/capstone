@@ -9,7 +9,8 @@ from .eda_utils import (
     plot_target_boxplots,
     plot_input_target_correlation_heatmap,
     plot_input_target_pairplot,
-    get_device_name
+    get_device_name,
+    append_suffix
 )
 
 from .constants import (
@@ -28,6 +29,7 @@ __all__ = [
     "plot_target_distributions",
     "plot_target_boxplots",
     "get_device_name",
+    "append_suffix",
     "DEVICE_TARGET_FEATURES",
     "INPUT_FEATURES",
 ]

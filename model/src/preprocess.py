@@ -188,6 +188,41 @@ def filter_datetime_range(df, start, end):
     logging.info(f"Shape after filtering: {result_df.shape}")
     return result_df
 
+def resample_features_to_match_ratings(features_df, rating_df):
+    """
+    Resample features_df to match the granularity of rating_df (20 minutes).
+    Handles non-numeric columns separately to avoid aggregation errors.
+    Computes multiple aggregation summaries for numeric columns.
+    """
+    # Set 'datetime' as the index for resampling
+    features_df.set_index("datetime", inplace=True)
+
+    # Separate numeric and non-numeric columns
+    numeric_cols = features_df.select_dtypes(include=["number"]).columns
+    non_numeric_cols = features_df.select_dtypes(exclude=["number"]).columns
+
+    # Resample numeric columns and compute multiple aggregations
+    resampled_numeric = features_df[numeric_cols].resample('20min').agg(['mean', 'min', 'max', 'median', 'std'])
+
+    # Flatten the columns after aggregation (e.g., Temperature_mean, Pressure_min, etc.)
+    resampled_numeric.columns = ['_'.join(col).strip() for col in resampled_numeric.columns.values]
+
+    # For non-numeric columns, use forward fill or keep first value in each interval
+    # Handle non-numeric columns by preserving relevant information
+    resampled_non_numeric = features_df[non_numeric_cols].resample('20min').agg(
+        lambda x: ",".join(x.dropna().unique()[:4]) + ("..." if len(x.dropna().unique()) > 4 else "")
+    )
+
+    # Combine resampled numeric and non-numeric data
+    resampled_features_df = pd.concat([resampled_numeric, resampled_non_numeric], axis=1)
+
+    # Reset the index after resampling
+    resampled_features_df.reset_index(inplace=True)
+
+    return resampled_features_df
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Preprocess sensor and ratings data for a device."
@@ -245,29 +280,15 @@ if __name__ == "__main__":
     log_dataframe_metadata(pivot_features_df, "Pivoted Sensor DataFrame")
     log_dataframe_metadata(pivot_rating_df, "Pivoted Ratings DataFrame")
 
-    pivot_features_df['Temperature'] = pivot_features_df.groupby('location')['Temperature'].ffill()
+    # Resample features_df to match ratings_df granularity
+    resampled_features_df = resample_features_to_match_ratings(pivot_features_df, pivot_rating_df)
 
-    pivot_features_df = pivot_features_df.sort_values("datetime")
-    pivot_rating_df = pivot_rating_df.sort_values("datetime")
-
-    # Ensure overlapping datetime range between feature and ratings data
-    min_feature_time = pivot_features_df["datetime"].min()
-    max_feature_time = pivot_features_df["datetime"].max()
-
-    min_rating_time = pivot_rating_df["datetime"].min()
-    max_rating_time = pivot_rating_df["datetime"].max()
-
-    overlap_start = max(min_feature_time, min_rating_time)
-    overlap_end = min(max_feature_time, max_rating_time)
-
-    pivot_features_df = filter_datetime_range(pivot_features_df,  overlap_start, overlap_end)
-    pivot_rating_df = filter_datetime_range(pivot_rating_df, overlap_start, overlap_end)
-
-    merged_df = pd.merge_asof(
-        pivot_features_df,
+    # Merge on datetime
+    merged_df = pd.merge(
+        resampled_features_df,
         pivot_rating_df,
         on="datetime",
-        direction="forward"
+        how="inner"  # Only include rows with matching datetime
     )
 
     logging.info("Merging completed.")

@@ -276,3 +276,16 @@ def plot_input_target_pairplot(df, input_features, target_features, title,
     if save_path:
         plt.savefig(f"{save_path}/input_target_pairplot.png", dpi=300, bbox_inches="tight")
     plt.show()
+
+def append_suffix(features, suffix):
+    """
+    Appends a suffix to each feature name in the list.
+
+    Args:
+        features (list): List of feature names (strings).
+        suffix (str): Suffix to append to each feature.
+
+    Returns:
+        list: A new list with the suffix appended to each feature.
+    """
+    return [f"{feature}_{suffix}" for feature in features]
