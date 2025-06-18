@@ -63,8 +63,7 @@ up to 0.471 on velocity RMS and XGBoost excelling on frequency-domain
 ratings. SVR provided competitive performance for mechanical fit
 assessments, demonstrating the importance of model diversity.
 
-The final system delivers a real-time dashboard, automated S3-to-EC2
-processing, and diagnostic plots, reducing manual effort and improving
+The final system delivers a real-time dashboard and AWS-automated data pipeline, reducing manual effort and improving
 transparency for maintenance engineers. Short-term recommendations
 include automated CI/CD and serverless alerts; longer-term plans focus
 on data expansion and anomaly detection to strengthen model robustness.
@@ -316,22 +315,57 @@ flexibility and reliability for industrial equipment health prediction.
     features through split selection, reducing dimensionality and
     focusing model capacity on impactful predictors.
 
-### Dashboard and Pipeline
+### Dashboard
 
-Our product includes:
+The dashboard contains real-time equipment rating monitoring, alerts, and visualizations.
 
--   **Dashboard**: Real-time equipment rating monitoring, alerts, and
-    visualizations
+### AWS Data Pipeline
 
--   **AWS Pipeline**: S3 data storage, EC2 compute, automated CRON jobs
+Our end-to-end data pipeline leverages AWS cloud services to automate the collection, processing, and delivery of equipment health insights. The architecture spans from on-premises data sources to cloud-based analytics, ensuring scalable and reliable operations for Brilliant Automation's predictive maintenance system.
 
-### Usage and Benefits
+#### Architecture Overview
 
--   Intuitive interface for maintenance technicians
+![AWS Data Pipeline Architecture](images/final_report_figures/AWS_Data_Pipeline.png)
 
--   Automation reduces human error and latency
+The pipeline follows a three-tier architecture connecting client operations to cloud analytics:
 
--   Scales across machines with minimal configuration
+- **Data Collection Layer:** Raw sensor data originates from Brilliant Automation's client database and is transferred to employee computers using remote desktop connections. This maintains security while enabling data access from industrial environments.
+
+- **Storage Layer:** AWS S3 serves as the centralized data repository, hosting both raw sensor files and processed feature datasets. This design enables easy access and sharing between different pipeline components while providing robust backup and versioning capabilities.
+
+- **Processing Layer:** AWS EC2 instances host the data processing scripts, machine learning models, and the interactive dashboard. A dedicated EC2 environment ensures consistent computational resources and simplified dependency management.
+
+#### Key AWS Services
+
+**Amazon S3 (Simple Storage Service):** Provides centralized storage for raw sensor data, processed feature datasets, and model artifacts. S3's scalability ensures the system can handle growing data volumes as more equipment is monitored, while its versioning capabilities maintain data lineage and enable rollback when needed.
+
+**Amazon EC2 (Elastic Compute Cloud):** Hosts the core processing infrastructure including data preprocessing scripts, machine learning model training and inference, and the Flask-based dashboard web application. EC2's flexibility allows for computational scaling as data volumes and model complexity increase over time.
+
+**AWS IAM (Identity and Access Management):** Manages secure access to S3 buckets and EC2 instances, ensuring that only authorized components can read raw data, write processed results, or access model predictions. This security layer is critical for industrial applications handling sensitive operational data.
+
+#### Automation and Scheduling
+
+**CRON Job Automation:** Scheduled CRON jobs on EC2 automatically trigger data preprocessing and model inference at regular intervals (e.g., daily). These jobs read raw sensor data from S3, apply feature engineering transformations, generate health rating predictions, and store results back to S3. This eliminates manual intervention and ensures consistent, timely updates.
+
+**Dashboard Refresh:** The dashboard employs the APScheduler library to periodically fetch the latest processed data and model predictions from S3. This ensures users always see current equipment health status without manual refresh, with configurable update intervals (e.g., hourly) to balance data freshness with system load.
+
+#### Pipeline Benefits
+
+The automated AWS architecture delivers several key advantages:
+
+- **Efficiency:** Eliminates manual data handling and reduces human error by automating the entire pipeline from data ingestion through prediction generation.
+
+- **Scalability:** Leverages AWS infrastructure to easily handle additional equipment or increased data frequency by scaling compute resources and storage as needed.
+
+- **Reliability:** Scheduled jobs ensure consistent, timely updates to health predictions, reducing the risk of missed maintenance windows due to data processing delays.
+
+- **Accessibility:** Centralized data storage in S3 and a web-based dashboard make equipment insights available to all stakeholders across different locations and devices.
+
+- **Integration:** The modular architecture facilitates easy addition of new analytics or machine learning models as requirements evolve, without disrupting existing operations.
+
+#### Current Implementation
+
+The current pipeline processes data from three equipment types (tube mills, belt conveyors, high-temperature fans) with 15 sensor monitoring points generating measurements every 5 seconds. Health ratings are synchronized with sensor data every 20 minutes, and the complete feature engineering and prediction cycle runs automatically on a daily schedule. The dashboard provides real-time access to current equipment status, historical trends, and model prediction confidence intervals.
 
 ## Conclusions and Recommendations
 
