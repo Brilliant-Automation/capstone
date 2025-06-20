@@ -21,3 +21,6 @@ notebook/eda_conveyer_belt.nbconvert.ipynb
 cv_metrics.csv
 
 *.log
+.ipynb_checkpoints/
+8#Belt Conveyer_PolyRidgeDegree2_cv_metrics.csv
+8#Belt Conveyer_Ridge_cv_metrics.csv
