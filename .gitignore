@@ -15,8 +15,6 @@ Data/**
 # …except keep the “result” directory
 !Data/result/
 !Data/result/**
-!Data/voltage/
-!Data/voltage/*.json
 
 notebook/eda_conveyer_belt.nbconvert.ipynb
 .idea/
