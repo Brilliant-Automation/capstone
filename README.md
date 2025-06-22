@@ -70,7 +70,7 @@ This command processes the data for the specified device and prepares it for sub
 Execute the exploratory data analysis notebook to automatically generate all required plots:
 
 ```bash
-    jupyter nbconvert --to notebook --execute notebook/eda_conveyer_belt.ipynb
+    jupyter nbconvert --to notebook --execute notebooks/eda_conveyer_belt.ipynb
 ```
 
 This runs all the cells in the notebook and updates it with the generated outputs.
@@ -80,18 +80,18 @@ This runs all the cells in the notebook and updates it with the generated output
 Convert the Quarto document into a PDF report using the following command:
 
 ```bash
-  quarto render docs/proposal.qmd --to pdf
+  quarto render docs/reports/proposal.qmd --to pdf
 ```
 
 The `proposal.pdf` file will be generated and saved in the `docs` directory.
 
 ---
 
-## How to Run the Preprocessing Script
+## **5. How to Run the Preprocessing Script**
 
 The preprocessing script processes raw sensor and ratings data and outputs a merged dataset for further analysis.
 
-##  **5. Supported Devices**
+###  **Supported Devices**
 
 The script currently supports the following devices:
 
@@ -124,7 +124,7 @@ python model/src/preprocess.py --device "<device_name>" [--data_dir <data_direct
    Output:
 
    ```bash
-   Data/process/8#Belt Conveyer_merged.csv
+   data/processed/8#Belt Conveyer_merged.csv
    model/src/preprocessing.log
    ```
 

@@ -42,10 +42,13 @@ def evaluate_cv(cv_results):
 def save_results(base_dir, device, best_models):
     """
     Saves the best models, cross-validation metrics, and prediction plots for each target feature.
+    Stores results in 'model/results'.
     """
-    models_dir = Path(base_dir) / "models" / device
-    metrics_dir = Path(base_dir) / "metrics" / device
-    plots_dir = Path(base_dir) / "plots" / device
+    # Define the results directory relative to the base directory
+    results_dir = Path(base_dir) / "results"
+    models_dir = results_dir / "models" / device
+    metrics_dir = results_dir / "metrics" / device
+    plots_dir = results_dir / "plots" / device
 
     # Create directories if they do not exist
     models_dir.mkdir(parents=True, exist_ok=True)
@@ -98,11 +101,11 @@ def main():
     )
     args = parser.parse_args()
 
-    # Base directory for saving results
-    result_dir = Path('Data') / 'result'
+    result_dir = Path(__file__).resolve().parent.parent
 
-    # Load dataset
-    data_path = Path('Data') / 'process' / f"{args.device}_full_features.csv"
+
+    # Load dataset (input data stays in the data directory)
+    data_path = Path('data') / 'processed' / f"{args.device}_full_features.csv"
     if not data_path.exists():
         print(f"File not found: {data_path}")
         return

@@ -28,6 +28,8 @@ data/raw_voltage/
 data/processed/*.csv         # Exclude processed datasets (if reproducible)
 data/processed/*.xlsx        # Exclude intermediate Excel files
 
+Data/processed/*.csv
+
 
 # Dashboard assets
 dashboard/src/assets/*.css.map
