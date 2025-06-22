@@ -30,7 +30,7 @@ data/processed/*.xlsx        # Exclude intermediate Excel files
 
 Data/processed/*.csv
 
-
+Data/
 # Dashboard assets
 dashboard/src/assets/*.css.map
 
