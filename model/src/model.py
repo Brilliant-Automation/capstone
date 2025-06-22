@@ -55,14 +55,14 @@ def save_results(base_dir, device, best_models):
     metrics_dir.mkdir(parents=True, exist_ok=True)
     plots_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save cross-validation metrics
-    metrics_file = metrics_dir / "cv_metrics.csv"
-    combined_metrics = pd.concat([metrics for _, (metrics, _, _) in best_models.items()])
-    combined_metrics.to_csv(metrics_file, index=False)
-    print(f"Saved cross-validation metrics to {metrics_file}")
-
-    # Save each best model and its corresponding plot
+    # Collect metrics with the associated best model name
+    metrics_list = []
     for target, (metrics, model, (y_true, y_pred)) in best_models.items():
+        metrics = metrics.copy()  # Ensure we don't overwrite the original metrics
+        metrics.insert(0, 'Best Model', type(model.named_steps['model']).__name__)  # Add best model name
+        metrics_list.append(metrics)
+
+        # Save the model
         model_path = models_dir / f"{target}_best_model.pkl"
         joblib.dump(model, model_path)
         print(f"Saved best model for '{target}' to {model_path}")
@@ -79,6 +79,12 @@ def save_results(base_dir, device, best_models):
         plt.savefig(plot_path)
         plt.close()
         print(f"Saved prediction plot for '{target}' to {plot_path}")
+
+    # Save all metrics to a single CSV file
+    metrics_file = metrics_dir / "cv_metrics.csv"
+    combined_metrics = pd.concat(metrics_list)
+    combined_metrics.to_csv(metrics_file, index=False)
+    print(f"Saved cross-validation metrics to {metrics_file}")
 
 
 def main():
@@ -102,7 +108,6 @@ def main():
     args = parser.parse_args()
 
     result_dir = Path(__file__).resolve().parent.parent
-
 
     # Load dataset (input data stays in the data directory)
     data_path = Path('data') / 'processed' / f"{args.device}_full_features.csv"
