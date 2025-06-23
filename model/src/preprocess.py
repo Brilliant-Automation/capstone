@@ -208,7 +208,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--device", required=True, help="Device name, e.g. '8#Belt Conveyer'")
     parser.add_argument("--data_dir", default="data/raw", help="Directory containing raw .xlsx data files (default: data/raw)")
-    parser.add_argument("--output_dir", default="data/processed", help="Directory to save processed data (default: data/processed)")
+    parser.add_argument("--output_dir", default="data/preprocessed", help="Directory to save processed data (default: data/preprocessed)")
     parser.add_argument("--aws", action="store_true", help="Read/write data from/to S3 bucket instead of local directory")
 
     args = parser.parse_args()
@@ -291,7 +291,7 @@ if __name__ == "__main__":
     if aws_mode:
         # Write merged_df to S3 as CSV
         s3 = boto3.client('s3')
-        output_key = f"processed/{device}_merged.csv"
+        output_key = f"preprocessed/{device}_merged.csv"
         csv_buffer = io.StringIO()
         merged_df.to_csv(csv_buffer, index=False)
         s3.put_object(Bucket=s3_bucket, Key=output_key, Body=csv_buffer.getvalue())

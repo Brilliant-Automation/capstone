@@ -110,7 +110,7 @@ def main():
     result_dir = Path(__file__).resolve().parent.parent
 
     # Load dataset (input data stays in the data directory)
-    data_path = Path('data') / 'processed' / f"{args.device}_full_features.csv"
+    data_path = Path('data') / 'preprocessed' / f"{args.device}_full_features.csv"
     if not data_path.exists():
         print(f"File not found: {data_path}")
         return

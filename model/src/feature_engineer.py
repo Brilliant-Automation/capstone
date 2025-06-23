@@ -28,7 +28,7 @@ from scipy import stats
 # —————————— 1. CONFIGURATION ——————————
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 VOLTAGE_DIR  = PROJECT_ROOT / "data" / "voltage"
-PROCESS_DIR  = PROJECT_ROOT / "data" / "processed"
+PROCESS_DIR  = PROJECT_ROOT / "data" / "preprocessed"
 
 # DSP metrics to compute from JSON
 METRIC_COLS = [
