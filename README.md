@@ -32,6 +32,9 @@ conda activate brilliant-auto-env
 | `make features`       | Extract features for the specified device             |
 | `make train`          | Train models for the specified device                |
 | `make clean`          | Clean temporary files                                 |
+| `make tests`          | Run all test cases using `pytest`                    |
+
+---
 
 ### **Using `DEVICE`**
 To process a different `DEVICE`, specify it on the command line:

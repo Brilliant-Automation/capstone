@@ -1,4 +1,4 @@
-.PHONY: all download preprocess features train clean
+.PHONY: all download preprocess features train clean tests
 
 # ——— Variables ———
 # Default device; override by calling:
@@ -34,3 +34,8 @@ train:
 clean:
 	@echo "🧹 Cleaning up..."
 	rm -rf __pycache__ *.log *.zip
+
+# --- Tests ---
+tests:
+	@echo "🧪 Running test cases..."
+	pytest -v model/tests/
