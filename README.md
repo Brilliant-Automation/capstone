@@ -138,8 +138,6 @@ python model/src/preprocess.py --device "<device_name>" [--data_dir <data_direct
 
 ## **6. How to Run the Dashboard**
 
-The dashboard currently uses sample data in `data/sample_belt_conveyer.csv` and does not reflect results from our models.
-
 ```bash
 cd dashboard/src
 python -m app
