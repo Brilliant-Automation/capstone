@@ -172,8 +172,17 @@ def main():
         df = pd.read_csv(data_path, parse_dates=['datetime'])
         print(f"Loaded data from {data_path}")
 
+    # Debug: Print column info
+    print(f"Dataset shape: {df.shape}")
+    print(f"Columns: {list(df.columns)}")
+    
     # Drop unused columns and handle missing data
-    df = df.drop(columns=['filepath', 'sensor_id', 'bucket_id', 'bucket_end'], errors='ignore').dropna()
+    columns_to_drop = ['filepath', 'sensor_id', 'bucket_id', 'bucket_end', 's3_key']
+    existing_columns_to_drop = [col for col in columns_to_drop if col in df.columns]
+    print(f"Dropping columns: {existing_columns_to_drop}")
+    
+    df = df.drop(columns=existing_columns_to_drop).dropna()
+    print(f"Shape after dropping columns and NaN: {df.shape}")
 
     # Optional: Subsample large datasets
     if len(df) > 100_000:
@@ -186,8 +195,30 @@ def main():
 
     # Separate features (X) and target values (y)
     rating_cols = [col for col in df.columns if col.endswith('_rating')]
+    print(f"Rating columns found: {rating_cols}")
+    
     X = df.drop(columns=rating_cols + ['datetime'])
     y = df[rating_cols]
+    
+    # Debug: Print feature info
+    print(f"Features shape: {X.shape}")
+    print(f"Targets shape: {y.shape}")
+    print(f"Feature columns: {list(X.columns)}")
+    
+    # Check for any non-numeric columns in X
+    non_numeric_cols = X.select_dtypes(exclude=[np.number]).columns.tolist()
+    if non_numeric_cols:
+        print(f"WARNING: Non-numeric columns found in features: {non_numeric_cols}")
+        print("Sample values from non-numeric columns:")
+        for col in non_numeric_cols[:3]:  # Show first 3 non-numeric columns
+            print(f"  {col}: {X[col].iloc[:5].tolist()}")
+        
+        # Try to drop problematic string columns
+        print("Attempting to drop string columns...")
+        X = X.select_dtypes(include=[np.number])
+        print(f"Features shape after dropping non-numeric columns: {X.shape}")
+    
+    print(f"Final feature columns: {list(X.columns)}")
 
     # Dynamically determine parallelism
     num_cores = os.cpu_count()
