@@ -39,11 +39,36 @@ run_feature_engineering() {
 run_model_training() {
     local device="$1"
     echo "=== Step 3: Model Training for device: $device ==="
-    if "$PYTHON_PATH" "$PROJECT_ROOT/src/model.py" --model Baseline --device "$device" --aws --tune; then
-        echo "Successfully completed model training for $device"
+    
+    # Define all models to train
+    models=(
+        "Baseline"
+        "Ridge"
+        "PolyRidgeDegree2"
+        "RandomForest"
+        "XGBoost"
+        "SVR"
+        "RuleTree"
+    )
+    
+    failed_models=()
+    for model in "${models[@]}"; do
+        echo "--- Training model: $model ---"
+        if "$PYTHON_PATH" "$PROJECT_ROOT/src/model.py" --model "$model" --device "$device" --aws --tune; then
+            echo "Successfully completed training for model: $model"
+        else
+            echo "Error training model: $model"
+            failed_models+=("$model")
+        fi
+    done
+    
+    # Check if any models failed
+    if [ ${#failed_models[@]} -eq 0 ]; then
+        echo "Successfully completed model training for all models on $device"
         return 0
     else
-        echo "Error in model training for $device"
+        echo "The following models failed to train:"
+        printf '%s\n' "${failed_models[@]}"
         return 1
     fi
 }
