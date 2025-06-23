@@ -1,4 +1,4 @@
-.PHONY: all download preprocess features train clean tests
+.PHONY: all download preprocess features train clean tests proposal-report final-report
 
 # ——— Variables ———
 # Default device; override by calling:
@@ -39,3 +39,18 @@ clean:
 tests:
 	@echo "🧪 Running test cases..."
 	pytest -v model/tests/
+
+# Generate the proposal report
+.PHONY: proposal-report
+proposal-report:
+	@echo "Generating proposal report..."
+	quarto render docs/reports/proposal.qmd --to pdf
+	@echo "Proposal report generated at docs/reports/proposal.pdf"
+
+# Generate the final report
+.PHONY: final-report
+final-report:
+	@echo "Generating final report..."
+	quarto render docs/reports/final_report.qmd --to pdf
+	@echo "Final report generated at docs/reports/final_report.pdf"
+

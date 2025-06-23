@@ -33,6 +33,8 @@ conda activate brilliant-auto-env
 | `make train`          | Train models for the specified device                |
 | `make clean`          | Clean temporary files                                 |
 | `make tests`          | Run all test cases using `pytest`                    |
+| `make proposal-report`| Generate the proposal report                          |
+| `make final-report`   | Generate the final report  
 
 ---
 
@@ -90,7 +92,19 @@ The `proposal.pdf` file will be generated and saved in the `docs` directory.
 
 ---
 
-## **5. How to Run the Preprocessing Script**
+## **5. How to Generate the Final Report**
+
+Convert the Quarto document into a PDF report using the following command:
+
+```bash
+  quarto render docs/reports/final_report.qmd --to pdf
+```
+
+The `final_report.pdf` file will be generated and saved in the `docs` directory.
+
+---
+
+## **6. How to Run the Preprocessing Script**
 
 The preprocessing script processes raw sensor and ratings data and outputs a merged dataset for further analysis.
 
@@ -139,7 +153,7 @@ python model/src/preprocess.py --device "<device_name>" [--data_dir <data_direct
 
 ---
 
-## **6. How to Run the Dashboard**
+## **7. How to Run the Dashboard**
 
 The dashboard currently uses sample data in `data/sample_belt_conveyer.csv` and does not reflect results from our models.
 
@@ -152,7 +166,7 @@ Go to `http://127.0.0.1:8050/dashboard/` to view the dashboard.
 
 ---
 
-## **7. AWS Deployment**
+## **8. AWS Deployment**
 
 ### Setting up Cron Jobs on AWS EC2
 
