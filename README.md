@@ -170,8 +170,6 @@ Our AWS data pipeline provides an end-to-end solution for automated equipment he
 | **Amazon EC2** | Compute infrastructure | Instance for processing and dashboard hosting |
 | **AWS IAM** | Access management | Secure S3 and EC2 permissions |
 
----
-
 ### **Data Flow Architecture**
 
 #### **S3 Bucket Structure**
@@ -199,8 +197,6 @@ brilliant-automation-capstone/
 3. **Feature Engineering**: DSP metrics extracted from voltage data
 4. **Model Training**: Multiple ML models trained with hyperparameter tuning
 5. **Results Storage**: Models, metrics, and plots saved to S3 `results/` folder
-
----
 
 ### **Complete Runbook**
 
