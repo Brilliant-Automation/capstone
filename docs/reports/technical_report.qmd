@@ -1,6 +1,6 @@
 ---
-title: "Final Project Report: Interpretable Machine Learning for Industrial Equipment Health Monitoring"
-author: "Your Name (on behalf of Brilliant Automation Team)"
+title: "Technical Report: Interpretable Machine Learning for Industrial Equipment Health Monitoring"
+author: "Samuel Adetsi, Mu Ha, Cheng Zhang, Michael Hewlett"
 date: "2025-06-22"
 format:
   html:
