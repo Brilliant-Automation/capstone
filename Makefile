@@ -1,4 +1,4 @@
-.PHONY: all download preprocess features train clean tests dashboard proposal-report technical-report final-report
+.PHONY: all download preprocess features train clean tests dashboard 
 
 # ——— Variables ———
 # Default device; override by calling:
@@ -54,7 +54,7 @@ dashboard:
 	@(cd dashboard/src && python -m app)
 
 # ——— Reports ———
-.PHONY: reports
+.PHONY: reports proposal-report technical-report final-report
 reports: proposal-report technical-report final-report
 
 proposal-report:
@@ -71,3 +71,29 @@ final-report:
 	@echo "📄 Generating final report..."
 	@quarto render docs/reports/final_report.qmd --to pdf
 	@echo "Final report generated at docs/reports/final_report.pdf"
+
+# ——— Notebooks ———
+.PHONY: notebooks
+notebooks:
+	@echo "📓 Rendering & executing EDA notebooks…"
+	@jupyter nbconvert --to notebook --execute notebooks/eda_conveyer_belt.ipynb --inplace
+	@jupyter nbconvert --to notebook --execute notebooks/eda_high_temp_fan.ipynb --inplace
+	@jupyter nbconvert --to notebook --execute notebooks/eda_tube_mill.ipynb --inplace
+
+# ——— Archived scripts ———
+.PHONY: archive-feature-eng-rar archive-model archive-rnn archive
+
+archive-feature-eng-rar:
+	@echo "🏗️  Running feature_eng_rar.py…"
+	@python model/archive/feature_eng_rar.py
+
+archive-model:
+	@echo "🏗️  Running model.py…"
+	@python model/archive/model.py
+
+archive-rnn:
+	@echo "🏗️  Running rnn_model.py…"
+	@python model/archive/rnn_model.py
+
+archive: archive-feature-eng archive-model archive-rnn
+	@echo "✅ All archived model scripts complete!"
