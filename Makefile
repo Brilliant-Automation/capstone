@@ -33,7 +33,7 @@ train:
 # ——— Tests ———
 tests:
 	@echo "🧪 Running test cases..."
-	@pytest -v model/tests/
+	@pytest -v model/tests/ dashboard/src/tests/
 
 # ——— Cleanup ———
 clean:
